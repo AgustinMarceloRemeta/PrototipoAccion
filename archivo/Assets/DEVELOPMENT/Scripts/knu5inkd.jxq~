@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class Enemy : MonoBehaviour
+{
+    private float health = 100f;
+    private NavMeshAgent agent;
+
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
+    public void Damage(float damage)
+    {
+
+    }
+}
