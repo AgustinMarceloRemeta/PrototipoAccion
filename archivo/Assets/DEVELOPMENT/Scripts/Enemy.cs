@@ -48,14 +48,37 @@ public class Enemy : MonoBehaviour
         {
             manager.QueueSpawn(transform);
             manager.PlaySound("player", "kills");
-            agent.enabled = rb.isKinematic = alive = false;
-            manager.Kills++;
+            agent.enabled = rb.isKinematic = alive = false;           
             rb.AddForce(-transform.forward * 250f);
+            manager.Kills++;
+            sumakills();
         }
     }
      void Ataque()
     {
         Cooldown = 3f;
         manager.life = player.health = player.health - 5f;        
+    }
+    void sumakills()
+    {
+        if (gameObject.CompareTag("Red"))
+        {
+            manager.KillsRed++;
+            manager.Score = manager.Score + 7;
+        }
+        if (gameObject.CompareTag("White")){
+            manager.KillsWhite++;
+            manager.Score = manager.Score + 2;
+        }
+        if (gameObject.CompareTag("Orange"))
+        {
+            manager.KillsOrange++;
+            manager.Score = manager.Score + 5;
+        }
+        if (gameObject.CompareTag("Black"))
+        {
+            manager.KillsBlack++;
+            manager.Score = manager.Score + 10;
+        }
     }
 }

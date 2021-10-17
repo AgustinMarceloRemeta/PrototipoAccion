@@ -11,21 +11,48 @@ public class Manager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
 
     [Header("Lobby")]
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private Transform lobbyCamera, player;
+    [SerializeField] private GameObject[] enemigos;
+    [SerializeField] public Transform lobbyCamera, player;
     private Enemy enemy;
     private Player jugador;
     public int Kills= 0;
     public Text ContadorKills;
     public Text Vida;
     public float life = 100f;
-   
+    public List<Transform> red;
+    public List<Transform> orange;
+    public List<Transform> black;
+    public List<Transform> white;
+    public Transform Spawn;
+    public int Muertes= 0;
+    public int Score = 0;
+    public int KillsRed = 0;
+    public int KillsWhite = 0;
+    public int KillsBlack = 0;
+    public int KillsOrange = 0;
+    public Text MuertesFinal;
+    public Text ScoreFinal;
+    public Text textKillsFinal;
+    public Text textKillsRed;
+    public Text textKillsWhite;
+    public Text textKillsBlack;
+    public Text textKillsOrange;
+    public Text explicacion;
+    public Text textScore;
+
+
+
+
     #endregion
 
     private void start()
     {
         jugador = FindObjectOfType<Player>();
-        Vida.text = ("Vida: 100");
+        Vida.text = "Vida: 100";
+        explicacion.text = " ";
+        textScore.text = "Score: 0";
+        ContadorKills.text = "Kills: 0";
+        
     }
 
     #region Audio
@@ -77,9 +104,25 @@ public class Manager : MonoBehaviour
         if (!timing && timer <= 0) return;
         if (_timer > 0) _timer -= Time.deltaTime;
         else { _timer = 1f; Tick(); }
-        ContadorKills.text = ("Kills:" + Kills);
-        Vida.text = ("Vida:" + life);
-        
+        ContadorKills.text = ("Kills: " + Kills);
+        Vida.text = ("Vida: " + life);
+        textScore.text = "Score: " + Score;
+        explicacion.text = " ";
+        if (timer == 0) {
+            MuertesFinal.text = "Muertes:" + Muertes + "(-"+ Muertes*5+ "p)" ;
+            ScoreFinal.text = "Score:" + Score + "p";
+            textKillsBlack.text = "Kills Black:" + KillsBlack + "(" + KillsBlack *10 + "p)";
+            textKillsRed.text = "Kill Red:" + KillsRed + "(" + KillsRed*7 + "p)";
+            textKillsOrange.text = "Kill Orange:" + KillsOrange + "(" + KillsOrange * 5 + "p)";
+            textKillsWhite.text = "Kills White:" + KillsWhite + "(" + KillsWhite * 2 + "p)";
+            textKillsFinal.text = "kills Totales:" + Kills;
+            Vida.text = "";
+            ContadorKills.text = "";
+            textScore.text = "";
+            
+        }
+
+
     }
 
     private void Tick()
@@ -99,15 +142,33 @@ public class Manager : MonoBehaviour
     public void SpawnAll()
     {
         List<Transform> spawners = spawnPoints.ToList();
+        
         int rdm = Random.Range(0, spawnPoints.Length);
         player.position = spawners[rdm].position + Vector3.up;
         player.gameObject.SetActive(true);
         lobbyCamera.gameObject.SetActive(false);
         spawners.RemoveAt(rdm);
-        foreach (var spawner in spawners)
-            Instantiate(enemyPrefab, spawner.position, enemyPrefab.transform.rotation);
+        Spawn = spawners[rdm];
+        for (int i = 0; i <spawners.Count; i++)
+        {
+            if (i <= 2) { red.Add(spawners[i]);}
+            if (i <= 5 && i>2) { white.Add(spawners[i]);}
+            if (i <= 8 && i > 5) { black.Add(spawners[i]);}
+            if (i <= 11 && i > 8) { orange.Add(spawners[i]);}
+        }
+       // foreach (var spawner in spawners)
+        foreach (var spawner in white)
+              Instantiate(enemigos[0], spawner.position, enemigos[0].transform.rotation);
+        foreach (var spawner in red)
+            Instantiate(enemigos[1], spawner.position, enemigos[1].transform.rotation);
+        foreach (var spawner in orange)
+            Instantiate(enemigos[2], spawner.position, enemigos[2].transform.rotation);
+        foreach (var spawner in black)
+            Instantiate(enemigos[3], spawner.position, enemigos[3].transform.rotation); 
+        
         timing = true;
         timer = 90;
+       
     }
 
     public void BeginMatch() => StartCoroutine(IBeginMatch());

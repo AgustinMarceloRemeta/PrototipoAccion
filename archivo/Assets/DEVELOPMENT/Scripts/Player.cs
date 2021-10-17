@@ -44,8 +44,8 @@ public class Player : MonoBehaviour
             bool headshot = hit.collider.gameObject.name.Contains("Head");
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
             enemy.Damage(headshot ? 50f : 20f);
-
-            if (health <= 0) {Dead();}
+            if(health <= 0) { Dead(); }
+        
         }
     }
 
@@ -57,10 +57,14 @@ public class Player : MonoBehaviour
             manager.PlaySound("player", "killed");
             manager.QueueSpawn(transform);
             fpc.enabled = rb.isKinematic = alive = false;
+            Dead();
         }
     }
-    void Dead() { 
-        SceneManager.LoadScene(0);
-        
+    void Dead() {
+        manager.player.position = manager.Spawn.position + Vector3.up;
+        health = 100;
+        manager.Muertes++;
+        manager.Score = manager.Score - 5;
+        manager.Vida.text = "Vida: 100";
     }
 }

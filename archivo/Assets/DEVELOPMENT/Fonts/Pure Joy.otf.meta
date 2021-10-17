@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5a21482b159e9564fa462cb7ec45ce1d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Pure Joy
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: f5b7badbeb374cf4ca870b4ad45acea9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
